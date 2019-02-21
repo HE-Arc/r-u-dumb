@@ -1,6 +1,6 @@
 
-# Created by https://www.gitignore.io/api/django,python,pycharm,visualstudiocode
-# Edit at https://www.gitignore.io/?templates=django,python,pycharm,visualstudiocode
+# Created by https://www.gitignore.io/api/django,python,pycharm,virtualenv,visualstudiocode
+# Edit at https://www.gitignore.io/?templates=django,python,pycharm,virtualenv,visualstudiocode
 
 ### Django ###
 *.log
@@ -259,6 +259,18 @@ fabric.properties
 ### Python Patch ###
 .venv/
 
+### VirtualEnv ###
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+pip-selfcheck.json
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -270,4 +282,4 @@ fabric.properties
 # Ignore all local history of files
 .history
 
-# End of https://www.gitignore.io/api/django,python,pycharm,visualstudiocode
+# End of https://www.gitignore.io/api/django,python,pycharm,virtualenv,visualstudiocode
