@@ -78,14 +78,13 @@ WSGI_APPLICATION = 'rudumb.wsgi.application'
 
 DATABASES = {
     'default': {
-            
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'rudumbDB',
-        # 'USER': 'root',
-        # 'PASSWORD': 'root',
-        # 'HOST': '127.0.0.1',
-        # 'PORT': '5432',
-    
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'rudumbdb',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        #'HOST': '127.0.0.1',
+        #'PORT': '5432',
+
     }
 }
 
