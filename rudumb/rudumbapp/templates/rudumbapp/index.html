@@ -3,6 +3,7 @@
 {% block content %}
   <h1>test</h1>
 
+<<<<<<< HEAD
 
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -52,3 +53,17 @@
       </a>
     </div>
 {% endblock %}
+=======
+<body>
+    <h1>R U DUMB</h1>
+
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
+</body>
+</html>
+>>>>>>> e7208bbd06d47eca0d51f5865b87a1d757295c00

@@ -153,19 +153,8 @@ class Stats(models.Model):
     quiz = models.ForeignKey(Quizzes, models.DO_NOTHING, blank=True, null=True)
     resultquiz = models.IntegerField(blank=True, null=True)
     datequizdone = models.DateTimeField(blank=True, null=True)
-    user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey('AuthUser', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'stats'
-
-
-class Users(models.Model):
-    username = models.CharField(max_length=45, blank=True, null=True)
-    email = models.CharField(max_length=45, blank=True, null=True)
-    password = models.CharField(max_length=45, blank=True, null=True)
-    role = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'users'

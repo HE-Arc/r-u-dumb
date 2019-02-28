@@ -136,18 +136,4 @@ class Migration(migrations.Migration):
                 'managed': False,
             },
         ),
-        migrations.CreateModel(
-            name='Users',
-            fields=[
-                ('id', models.IntegerField(primary_key=True, serialize=False)),
-                ('username', models.CharField(blank=True, max_length=45, null=True)),
-                ('email', models.CharField(blank=True, max_length=45, null=True)),
-                ('password', models.CharField(blank=True, max_length=45, null=True)),
-                ('role', models.IntegerField(blank=True, null=True)),
-            ],
-            options={
-                'db_table': 'users',
-                'managed': False,
-            },
-        ),
     ]
