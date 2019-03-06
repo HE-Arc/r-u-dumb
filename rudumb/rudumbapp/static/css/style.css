@@ -35,6 +35,21 @@ body {
     height: 32rem;
   }
   
+
+  .index-quizz {
+
+    width: 60%;
+    margin: auto;
+  }
+
+  .search-form {
+
+    float: right;
+  }
+
+  .index-quizz-title {
+    display: inline;
+  }
   
   /* MARKETING CONTENT
   -------------------------------------------------- */
