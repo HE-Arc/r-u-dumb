@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
-
 {% block content %}
-  <h1>test</h1>
-
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class=""></li>
@@ -49,6 +46,17 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
+    </div>
+    <div class ="index-quizz">
+      <h2 class="index-quizz-title">All new quizz</h2>
+      <form class="form-inline mt-2 mt-md-0 search-form">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      <hr>
+      {% for quizz in quizz_list}
+      
+
     </div>
 {% endblock %}
 

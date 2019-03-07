@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
+from .models import Quizzes 
 
 
 dummy_data = [
@@ -27,10 +28,14 @@ dummy_data = [
 # Create your views here.
 def index(request):
     context = {}
+    quizz_list = Quizzes.objects.all()
+
     return render(request, 'rudumbapp/index.html', context)
+    
 
 def dashboard(request):
     context = {
         'historic': dummy_data
     }
     return render(request, 'rudumbapp/dashboard.html', context)
+    

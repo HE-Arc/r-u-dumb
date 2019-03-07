@@ -3,8 +3,6 @@
 /* Padding below the footer and lighter body text */
 
 body {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
     color: #5a5a5a;
   }
   
@@ -35,6 +33,21 @@ body {
     height: 32rem;
   }
   
+
+  .index-quizz {
+
+    width: 60%;
+    margin: auto;
+  }
+
+  .search-form {
+
+    float: right;
+  }
+
+  .index-quizz-title {
+    display: inline;
+  }
   
   /* MARKETING CONTENT
   -------------------------------------------------- */
