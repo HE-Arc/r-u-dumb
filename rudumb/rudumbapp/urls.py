@@ -6,5 +6,6 @@ from . import views
 
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', TemplateView.as_view(template_name='rudumbapp/index.html'), name='index'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('', TemplateView.as_view(template_name='rudumbapp/index.html'), name='index')
 ]

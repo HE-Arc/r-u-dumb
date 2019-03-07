@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for quiz in historic %}
+
+        <h1>{{ quiz.title }}</h1>
+        <p>Posted by {{ quiz.author }}</p>
+        <p>Scored: {{ quiz.score }} Ranking at: {{ quiz.leaderboard }}</p>
+
+    {% endfor %}
+{% endblock %}
