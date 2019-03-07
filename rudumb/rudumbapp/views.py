@@ -4,10 +4,11 @@ from django.contrib.auth import authenticate, login
 from .models import Quizzes 
 
 
+
 # Create your views here.
 def index(request):
-    context = {}
-    quizz_list = Quizzes.objects.all()
+    context = {
 
+        'quizz_list' : "test"
+    }
     return render(request, 'rudumbapp/index.html', context)
-

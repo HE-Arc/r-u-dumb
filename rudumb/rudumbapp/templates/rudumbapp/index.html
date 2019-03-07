@@ -1,4 +1,7 @@
+
 {% extends 'base.html' %}
+{{quizz_list}}
+
 {% block content %}
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -54,8 +57,20 @@
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
       <hr>
-      {% for quizz in quizz_list}
-      
+      <div>
+          {{quizz_list}}
+
+      {% if quizz_list.all %}
+      {{quizz_list}}
+
+      {% for quizz in quizz_list %}
+      <p>test</p>
+      {% endfor %}
+        {% else %}
+        nothing
+      {% endif %}
+
+      </div>
 
     </div>
 {% endblock %}
