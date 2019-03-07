@@ -1,12 +1,6 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+# Create your models here.
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=80)
@@ -73,15 +67,6 @@ class AuthUserUserPermissions(models.Model):
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
 
-
-class Categories(models.Model):
-    name = models.CharField(max_length=45, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'categories'
-
-
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -123,38 +108,27 @@ class DjangoSession(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'django_session'
+db_table = 'django_session'
 
-
+class Categories(models.Model):
+    name = models.CharField(max_length=45)
+		
 class Questions(models.Model):
-    question = models.CharField(max_length=45, blank=True, null=True)
-    choice1 = models.CharField(max_length=45, blank=True, null=True)
-    choice2 = models.CharField(max_length=45, blank=True, null=True)
-    choice3 = models.CharField(max_length=45, blank=True, null=True)
-    choice4 = models.CharField(max_length=45, blank=True, null=True)
-    answer = models.IntegerField(blank=True, null=True)
-    quiz = models.ForeignKey('Quizzes', models.DO_NOTHING, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'questions'
-
+    question = models.CharField(max_length=45)
+    choice1 = models.CharField(max_length=45)
+    choice2 = models.CharField(max_length=45)
+    choice3 = models.CharField(max_length=45)
+    choice4 = models.CharField(max_length=45)
+    answer = models.IntegerField()
+    quiz = models.ForeignKey('Quizzes', on_delete=models.CASCADE)
 
 class Quizzes(models.Model):
-    name = models.CharField(max_length=45, blank=True, null=True)
-    category = models.ForeignKey(Categories, models.DO_NOTHING, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'quizzes'
-
+    name = models.CharField(max_length=45)
+    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True)
 
 class Stats(models.Model):
-    quiz = models.ForeignKey(Quizzes, models.DO_NOTHING, blank=True, null=True)
-    resultquiz = models.IntegerField(blank=True, null=True)
-    datequizdone = models.DateTimeField(blank=True, null=True)
-    user = models.ForeignKey('AuthUser', models.DO_NOTHING, blank=True, null=True)
+    quiz = models.ForeignKey(Quizzes, on_delete=models.CASCADE)
+    resultquiz = models.IntegerField()
+    datequizdone = models.DateTimeField()
+    user = models.ForeignKey('AuthUser', on_delete=models.CASCADE)
 
-    class Meta:
-        managed = False
-        db_table = 'stats'
