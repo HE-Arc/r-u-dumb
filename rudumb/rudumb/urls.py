@@ -23,5 +23,6 @@ urlpatterns = [
 
     path('', include('rudumbapp.urls')),
     path('dashboard/', include('rudumbapp.urls')),
+    path('quiz/', include('rudumbapp.urls')),
     path('admin/', admin.site.urls)
 ]
