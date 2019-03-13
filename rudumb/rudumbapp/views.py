@@ -8,7 +8,6 @@ from django.http import Http404
 
 from .models import Quiz, Category
 
-
 dummy_data = [
     {
         'title': 'Would you be a good dolphin?',
@@ -60,9 +59,9 @@ def register(request):
 
     return render(request, 'registration/register.html', {'form': form})
 
-
 def dashboard(request):
     context = {
         'historic': dummy_data
     }
     return render(request, 'dashboard.html', context)
+
