@@ -9,6 +9,27 @@ from django.http import Http404
 from .models import Quiz, Category
 
 
+dummy_data = [
+    {
+        'title': 'Would you be a good dolphin?',
+        'author': 'Leroy',
+        'score': '60%',
+        'leaderboard': '10/2190'
+    },
+    {
+        'title': 'Would you be a good doggo?',
+        'author': 'Goodboi56',
+        'score': '76%',
+        'leaderboard': '643/23445'
+    },
+    {
+        'title': 'States of the US',
+        'author': 'D. J. Trump',
+        'score': '100%',
+        'leaderboard': '110/48432'
+    }
+]
+
 # Create your views here.
 def home(request):
     try:
@@ -38,3 +59,10 @@ def register(request):
         form = UserRegistrationForm()
 
     return render(request, 'registration/register.html', {'form': form})
+
+
+def dashboard(request):
+    context = {
+        'historic': dummy_data
+    }
+    return render(request, 'dashboard.html', context)

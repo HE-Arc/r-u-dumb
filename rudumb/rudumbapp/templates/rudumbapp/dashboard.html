@@ -1,0 +1,23 @@
+{% extends 'skeleton.html' %}
+
+{% block content %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}">My results</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}">My quiz</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            </ul>
+
+    {% for quiz in historic %}
+
+        <h1>{{ quiz.title }}</h1>
+        <p>Posted by {{ quiz.author }}</p>
+        <p>Scored: {{ quiz.score }} Ranking at: {{ quiz.leaderboard }}</p>
+
+    {% endfor %}
+{% endblock %}

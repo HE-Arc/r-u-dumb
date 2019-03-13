@@ -14,10 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.conf.urls import url, include
 from django.contrib.auth.views import LoginView, LogoutView
-
+from django.urls import path, include
+from django.conf.urls import url
 
 urlpatterns = [
     path('', include('rudumbapp.urls')),
