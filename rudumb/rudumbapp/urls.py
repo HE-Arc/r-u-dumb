@@ -1,13 +1,8 @@
-from django.urls import path, include
-from django.contrib import admin
-from django.views.generic.base import TemplateView # new
-
+from django.urls import path
+from django.conf.urls import url
 from . import views
-
 urlpatterns = [
-    path('accounts/', include('django.contrib.auth.urls')),
+    url(r'^register/', views.register),
+    path('', views.home, name='home'),
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('', TemplateView.as_view(template_name='rudumbapp/index.html'), name='index'),
-    path('quiz/', TemplateView.as_view(template_name='rudumbapp/index.html'), name='quiz')
-
 ]

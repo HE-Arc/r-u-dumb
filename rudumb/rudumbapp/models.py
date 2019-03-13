@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 class AuthGroup(models.Model):
@@ -67,6 +68,7 @@ class AuthUserUserPermissions(models.Model):
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
 
+
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -108,27 +110,36 @@ class DjangoSession(models.Model):
 
     class Meta:
         managed = False
-db_table = 'django_session'
+        db_table = 'django_session'
 
-class Categories(models.Model):
+
+class Category(models.Model):
     name = models.CharField(max_length=45)
-		
-class Questions(models.Model):
+
+    def __str__(self):
+        return self.name
+
+
+class Question(models.Model):
     question = models.CharField(max_length=45)
     choice1 = models.CharField(max_length=45)
     choice2 = models.CharField(max_length=45)
     choice3 = models.CharField(max_length=45)
     choice4 = models.CharField(max_length=45)
     answer = models.IntegerField()
-    quiz = models.ForeignKey('Quizzes', on_delete=models.CASCADE)
+    quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
 
-class Quizzes(models.Model):
+
+class Quiz(models.Model):
     name = models.CharField(max_length=45)
-    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
 
-class Stats(models.Model):
-    quiz = models.ForeignKey(Quizzes, on_delete=models.CASCADE)
-    resultquiz = models.IntegerField()
-    datequizdone = models.DateTimeField()
+    def __str__(self):
+        return self.name
+
+
+class Stat(models.Model):
+    quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
+    result_quiz = models.IntegerField()
+    date_quiz_done = models.DateTimeField()
     user = models.ForeignKey('AuthUser', on_delete=models.CASCADE)
-
