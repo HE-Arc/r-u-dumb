@@ -73,6 +73,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'rudumb.wsgi.application'
 
 

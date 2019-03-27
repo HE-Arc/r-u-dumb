@@ -47,7 +47,17 @@ body {
 
   .index-quizz-title {
     display: inline;
+
   }
+
+  
+
+  .index-quizz-preview {
+    border-style: solid;
+    border-width: 1px;
+    
+  }
+
   
   /* MARKETING CONTENT
   -------------------------------------------------- */

@@ -132,7 +132,8 @@ class Question(models.Model):
 
 class Quiz(models.Model):
     name = models.CharField(max_length=45)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    category = models.ManyToManyField(Category)
+    #category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name

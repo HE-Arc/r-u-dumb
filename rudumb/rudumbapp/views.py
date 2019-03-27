@@ -5,6 +5,8 @@ from django import forms
 from django.http import HttpResponseRedirect
 from .forms import UserRegistrationForm
 from django.http import Http404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render
 
 from .models import Quiz, Category
 
@@ -32,10 +34,16 @@ dummy_data = [
 # Create your views here.
 def home(request):
     try:
-        category = Category.objects.all()
-    except Category.DoesNotExist:
-        raise Http404("Category does not exist")
-    return render(request, 'index/home.html', {'category': category})
+        quiz_list = Quiz.objects.all()
+        page = request.GET.get('page', 1)
+
+        paginator = Paginator(quiz_list, 10)
+        quizz = paginator.page(page)
+
+
+    except Quiz.DoesNotExist:
+        raise Http404("Quiz does not exist")
+    return render(request, 'index/home.html', {'quizz': quizz})
 
 
 def register(request):
@@ -64,4 +72,10 @@ def dashboard(request):
         'historic': dummy_data
     }
     return render(request, 'dashboard.html', context)
+
+
+def quizCreationForm(request):
+    categories = Category.objects.all()
+
+    return render(request, 'quizCreationForm.html', categories)
 
