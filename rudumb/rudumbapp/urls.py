@@ -7,3 +7,4 @@ urlpatterns = [
     path('dashboard', views.dashboard, name='dashboard'),
     path('quizCreationForm', views.quizCreationForm, name='quizCreationForm'),
 ]
+

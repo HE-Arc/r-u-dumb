@@ -1,20 +1,41 @@
-<!-- templates/quizCreationForm.html -->
 {% extends 'skeleton.html' %}
+{% load static from staticfiles %}
+{% load crispy_forms_tags %}
 
-{% block title %}Login{% endblock %}
+
+{% block title %}Create a quizz{% endblock %}
 
 {% block content %}
-<h1>Login</h1>
-    <form method="POST">
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<div>
+   
+    <form method="post" action="">
+        {{ quiz_form|crispy }}
         {% csrf_token %}
-        <p>
-            <label>Quiz name</label>
-            <input type="text" name="quizname">
-        </p>
-        <p>
-            <label>Category</label>
-            <input type="password" name="password">
-        </p>
-        <button type="submit">Submit</button>
+          <fieldset>
+          <legend>Add a question</legend>
+
+          <div>
+            {{ question_form.management_form|crispy }}
+            {% for question in question_form %}
+             <div class="link-formset">
+              {{ question|crispy }}
+            </div>
+            {% endfor %}
+
+          </div>
+
+
+        </fieldset>
+
+    <button type="submit" value="Submit">Submit</button>
+
     </form>
+    <script>
+        $('.link-formset').formset({
+            addText: 'Add  a question',
+            deleteText: 'Remove  a question'
+        });
+    </script>
+
 {% endblock %}

@@ -134,6 +134,8 @@ class Quiz(models.Model):
     name = models.CharField(max_length=45)
     category = models.ManyToManyField(Category)
     #category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    image = models.ImageField(null = True)
+
 
     def __str__(self):
         return self.name
