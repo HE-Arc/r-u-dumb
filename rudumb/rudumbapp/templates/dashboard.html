@@ -1,20 +1,64 @@
 {% extends 'skeleton.html' %}
 
 {% block content %}
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">My results</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">My quiz</a>
-                </li>
-            </ul>
 
-    {% for quiz in historic %}
+<div class="container">
+    <div class="row">
 
-        <h1>{{ quiz.title }}</h1>
-        <p>Posted by {{ quiz.author }}</p>
-        <p>Scored: {{ quiz.score }} Ranking at: {{ quiz.leaderboard }}</p>
+        <div class="col-lg">
 
-    {% endfor %}
-{% endblock %}
+            <br>
+            <div class="card">
+                <h4 class="card-title">My global score</h4>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <h5 class="card-title">Statistics</h5>
+                                <p class="card-text">Number of quiz completed: {{ score.total_completed }}</p>
+                                <p class="card-text">Percentage of quiz completed: {{ score.completed_ratio }}</p>
+                                <p class="card-text">Percentage of correct answers: {{ score.global_ratio }}</p>
+                                <p class="card-text">Ranking at: {{ score.global_leaderboard }}</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="card h-60">
+                                <div class="card-body">
+                                    <h5 class="card-title">Distribution</h5>
+                                    <div id="distribution_chart">{{ distribution|safe }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <br>
+            <div class="card">
+                <h4 class="card-title">Quiz i recently completed</h4>
+                </a>
+                <div class="card-body">
+
+                    {% for quiz in historic %}
+
+                    <div class="card">
+                        <a href="...">
+                            <h5 class="card-title">{{ quiz.title }}</h5>
+                        </a>
+                        <h6 class="card-subtitle mb-2 text-muted">Posted by {{ quiz.author }}</h6>
+                        <div class="card-body">
+                            <img class="card-img" src="..." height="12rm" alt="Card image cap">
+                            <h7>Score</h7>
+                            <p class="card-text">Scored: {{ quiz.score }}</p>
+                            <p class="card-text">Ranking at: {{ quiz.leaderboard }}</p>
+                        </div>
+                    </div>
+                    <br>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}
