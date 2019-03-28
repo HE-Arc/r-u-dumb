@@ -21,6 +21,6 @@ from django.conf.urls import url
 urlpatterns = [
     path('', include('rudumbapp.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^login/', LoginView.as_view(template_name='registration/login.html')),
-    url(r'^logout/', LogoutView.as_view(template_name='registration/logout.html')),
+    url(r'^login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    url(r'^logout/', LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
 ]

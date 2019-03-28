@@ -1,0 +1,94 @@
+{% extends 'skeleton.html' %}
+{% block content %}
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+        var maMap = new Map();
+        $('#radioBox').change(function(){
+            maMap.set({{ question.number }}, $("input[name='optionsRadios']:checked").val());
+            for (var [clé, valeur] of maMap) {
+            console.log(clé + " = " + valeur);
+
+            $.cookie('name', JSON.stringify(maMap));
+
+            alert(document.cookie);
+}
+        });
+    });
+</script>
+
+<h1>{{ quiz.name }}</h1>
+
+{{question}}
+{% for q in question %}
+<ul>
+    <div class="container">
+        <div class="row clearfix">
+        </div>
+        <div class="col-md-1 column">
+        </div>
+        <div class="col-md-10 column">
+
+            {% if percent == 100 %}
+                <p>This is the last question</p>
+            {% elif question.number == 1 %}
+                <p>This is the first question</p>
+            {% else %}
+                <p>You have done {{ percent }} % of the questions</p>
+            {% endif %}
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{ percent }}%;">
+                </div>
+            </div>
+            <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                    <br/>
+                    <h3 class="panel-title">{{question.number}}. {{ q.question}}</h3>
+                </div>
+
+                <form action="?page={{ question.next_page_number }}" method="post" id="radioBox">
+                    {% csrf_token %}
+                    <div class="panel-body">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked=""> {{ q.choice1 }}
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="2"> {{ q.choice2 }}
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="3"> {{ q.choice3 }}
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="optionsRadios4" value="4"> {{ q.choice4 }}
+                            </label>
+                        </div>
+                    </div>
+
+                {% if question.number < lastpage %}
+                    <button class="btn btn-primary" id="nextQuestion">Next question</button>
+                    </form>
+                {% endif %}
+                {% if question.number == lastpage %}
+                <form action="/quiz/{{ quiz.id }}/results" method="post">
+                    <input class="btn btn-primary" type="submit" name="Next" value="Confirm">
+                </form>
+                {% endif %}
+            </div>
+            <div class="col-md-1 column">
+            </div>
+        </div>
+    </div>
+</ul>
+
+
+{% endfor %}
+{% endblock %}

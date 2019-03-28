@@ -1,12 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django import forms
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotAllowed
 from .forms import UserRegistrationForm
 from django.http import Http404
 
-from .models import Quiz, Category
+from django.core.paginator import Paginator
+from next_prev import next_in_order
+
+from .forms import (
+    BookFormset,
+    BookModelFormset,
+    BookModelForm,
+    AuthorFormset
+)
+
+from .models import Quiz, Category, Question
 
 dummy_data = [
     {
@@ -64,4 +74,57 @@ def dashboard(request):
         'historic': dummy_data
     }
     return render(request, 'dashboard.html', context)
+
+def quiz_form(request):
+    template_name = 'quiz/quiz_form.html'
+    if request.method == 'GET':
+        bookform = BookModelForm(request.GET or None)
+        formset = AuthorFormset(queryset=Quiz.objects.none())
+    elif request.method == 'POST':
+        bookform = BookModelForm(request.POST)
+        formset = AuthorFormset(request.POST)
+        if bookform.is_valid() and formset.is_valid():
+            # first save this book, as its reference will be used in `Author`
+            book = bookform.save()
+            for form in formset:
+                # so that `book` instance can be attached.
+                author = form.save(commit=False)
+                author.question = book
+                author.choice1 = "ddd"
+                author.save()
+            return redirect('store:book_list')
+    return render(request, template_name, {
+        'bookform': bookform,
+        'formset': formset,
+    })
+
+def quiz(request, id):
+    template_name = 'quiz/quiz.html'
+
+    quiz = get_object_or_404(Quiz, pk=id)
+    questions = Question.objects.filter(quiz=quiz)
+
+    if 'optionsRadios' in request.POST:
+        request.session['optionsRadios'] = request.POST.get('optionsRadios', None)
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(questions, 1)
+    question = paginator.page(page)
+
+    percent = int(question.number / question.paginator.count * 100)
+    lastpage = int(question.paginator.count -1)
+
+    return render(request, template_name, {
+        'quiz' : quiz,
+        'question' : question,
+        'percent' : percent,
+        'lastpage' : lastpage,
+    })
+
+
+def results_quiz(request, id):
+    template_name = 'quiz/result.html'
+    return render(request, template_name, {
+        'test' : ""
+    })
 
