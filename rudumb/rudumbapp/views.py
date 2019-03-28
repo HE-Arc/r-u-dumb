@@ -102,29 +102,34 @@ def quiz(request, id):
     template_name = 'quiz/quiz.html'
 
     quiz = get_object_or_404(Quiz, pk=id)
-    questions = Question.objects.filter(quiz=quiz)
-
-    if 'optionsRadios' in request.POST:
-        request.session['optionsRadios'] = request.POST.get('optionsRadios', None)
-
-    page = request.GET.get('page', 1)
-    paginator = Paginator(questions, 1)
-    question = paginator.page(page)
-
-    percent = int(question.number / question.paginator.count * 100)
-    lastpage = int(question.paginator.count -1)
 
     return render(request, template_name, {
         'quiz' : quiz,
-        'question' : question,
-        'percent' : percent,
-        'lastpage' : lastpage,
     })
 
 
 def results_quiz(request, id):
     template_name = 'quiz/result.html'
-    return render(request, template_name, {
-        'test' : ""
-    })
+
+    if request.method == 'POST':
+
+
+        #A VOIR
+        i = 0
+        j = 1
+        result = []
+        quiz = get_object_or_404(Quiz, pk=id)
+        for q in quiz.question_set.all():
+            input_keys = request.POST.get("optionsRadios" + str(j))
+            if input_keys[i] == q.answer:
+                result.append(True)
+            else:
+                result.append(False)
+            i = i+1
+            j = j + 1
+
+        return render(request, template_name, {
+            'result': input_keys
+        })
+
 
