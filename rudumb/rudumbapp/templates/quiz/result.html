@@ -1,13 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'skeleton.html' %}
+{% block content %}
+{% load arrayElement %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12" style=" text-align: center;"><h1>Well Play !</h1></div>
+        <div class="col-lg-12" style=" text-align: center;"><h1>Your score : {{trueAnswer}}/{{lenght}}</h1></div>
+    </div>
+</div>
 
-    {{result}}
-    {{request.POST}}
-</head>
-<body>
-
-</body>
-</html>
+<div class="container">
+    {% for q in quiz.question_set.all %}
+    <div {% if result|arrayElement:forloop.counter0 == True %}
+            style="background-color: Green;"
+         {% else %}
+            style="background-color: Red;"
+         {% endif %}>{{ q.question}}
+    </div>
+    <div>
+        <ul>
+            <li>{{q.choice1}}</li>
+            <li>{{q.choice2}}</li>
+            <li>{{q.choice3}}</li>
+            <li>{{q.choice4}}</li>
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
