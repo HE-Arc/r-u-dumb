@@ -1,6 +1,6 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import datetime    
-
 
 
 # Create your models here.
@@ -123,12 +123,12 @@ class Category(models.Model):
 
 
 class Question(models.Model):
-    question = models.CharField(max_length=45)
-    choice1 = models.CharField(max_length=45)
-    choice2 = models.CharField(max_length=45)
-    choice3 = models.CharField(max_length=45)
-    choice4 = models.CharField(max_length=45)
-    answer = models.IntegerField()
+    question = models.CharField(max_length=255)
+    choice1 = models.CharField(max_length=45, null=True)
+    choice2 = models.CharField(max_length=45, null=True)
+    choice3 = models.CharField(max_length=45, null=True)
+    choice4 = models.CharField(max_length=45, null=True)
+    answer = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
     quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
 
 

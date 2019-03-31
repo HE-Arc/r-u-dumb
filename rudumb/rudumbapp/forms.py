@@ -2,7 +2,6 @@ from django import forms
 from .models import Category, Question, Quiz
 
 
-
 class UserRegistrationForm(forms.Form):
     username = forms.CharField(
         required=True,

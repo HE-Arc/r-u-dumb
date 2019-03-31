@@ -1,15 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.contrib.sessions.models import Session
 from django import forms
 from django.http import HttpResponseRedirect
 from .forms import UserRegistrationForm, QuizCreationForm, QuizQuestionForm
 from django.http import Http404
+from datetime import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.forms import formset_factory
 
-from .models import Quiz, Category
+
+from .models import Quiz, Category, Stat
 
 
 dummy_data = [
@@ -32,6 +35,7 @@ dummy_data = [
         'leaderboard': '110/48432'
     }
 ]
+
 
 # Create your views here.
 def home(request):
@@ -69,6 +73,7 @@ def register(request):
 
     return render(request, 'registration/register.html', {'form': form})
 
+
 def dashboard(request):
     context = {
         'historic': dummy_data
@@ -76,6 +81,54 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
+def quiz(request, id):
+    template_name = 'quiz/quiz.html'
+
+    quiz = get_object_or_404(Quiz, pk=id)
+
+    return render(request, template_name, {
+        'quiz': quiz,
+    })
+
+
+def results_quiz(request, id):
+    template_name = 'quiz/result.html'
+
+    if request.method == 'POST':
+        i = 1
+        trueAnswer = 0;
+        result = []
+        input_keys = []
+        quiz = get_object_or_404(Quiz, pk=id)
+        for key, value in request.POST.items():
+            input_keys.append(value)
+        for q in quiz.question_set.all():
+            if int(input_keys[i]) == q.answer:
+                result.append(True)
+                trueAnswer = trueAnswer + 1;
+            else:
+                result.append(False)
+            i = i + 1
+
+        lenght = len(result)
+
+        if request.session.get('_auth_user_id') is not None:
+            user = request.session.get('_auth_user_id')
+
+            if not Stat.objects.filter(quiz_id=id, user_id=user).exists() :
+                Stat.objects.create(result_quiz=trueAnswer, date_quiz_done=datetime.now(), quiz_id=id, user_id=user)
+            else:
+                Stat.objects.update(result_quiz=trueAnswer, date_quiz_done=datetime.now())
+
+
+        return render(request, template_name, {
+            'result': result,
+            'trueAnswer': trueAnswer,
+            'lenght': lenght,
+            'quiz': quiz
+        })
+      
+      
 def quizCreationForm(request):
     
     #We are creating a formset out of the ContactForm
