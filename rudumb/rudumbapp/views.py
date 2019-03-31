@@ -36,7 +36,7 @@ dummy_data = [
 # Create your views here.
 def home(request):
     try:
-        quiz_list = Quiz.objects.all()
+        quiz_list = Quiz.objects.all().order_by("-date")
         page = request.GET.get('page', 1)
 
         paginator = Paginator(quiz_list, 10)
@@ -94,15 +94,17 @@ def quizCreationForm(request):
         return render(request, template_name, context)
 
     if request.method == 'POST':
-        question_formset=Question_FormSet(request.POST)
-        quiz_form = QuizCreationForm(request.POST)
+        question_formset=Question_FormSet(request.POST, request.FILES)
+        quiz_form = QuizCreationForm(request.POST, request.FILES)
         print(quiz_form.errors)
-        print(question_formset.errors)
         #Checking the if the form is valid
         if question_formset.is_valid() and quiz_form.is_valid():
             
             #To save we have loop through the formset
+            #quiz_form.save(commit = False)
+            #quiz_form.image = request.FILES['image']
             q = quiz_form.save()
+
             for question in question_formset:
                 #Saving in the contacts models
                 questionObject = question.save(commit=False)

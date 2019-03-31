@@ -33,11 +33,27 @@ body {
     height: 32rem;
   }
   
+  .card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+  }
+
+  .carrousel-img {
+    object-fit: cover;
+  }
 
   .index-quizz {
 
     width: 60%;
     margin: auto;
+  }
+
+  .container {
+    background: rgba(0, 0, 0, .6);
+    
+    
+
   }
 
   .search-form {

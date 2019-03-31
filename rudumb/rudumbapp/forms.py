@@ -26,7 +26,7 @@ class UserRegistrationForm(forms.Form):
 class QuizCreationForm(forms.ModelForm):
     class Meta:
         model = Quiz
-        fields=['name','category']
+        fields=['name','category', 'image']
 
         
 

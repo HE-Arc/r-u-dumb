@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime    
+
 
 
 # Create your models here.
@@ -134,7 +136,9 @@ class Quiz(models.Model):
     name = models.CharField(max_length=45)
     category = models.ManyToManyField(Category)
     #category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
-    image = models.ImageField(null = True)
+    image = models.ImageField(default='default.png', upload_to='quizzPictures')
+    date = models.DateTimeField(default = datetime.now, blank=True)
+
 
 
     def __str__(self):

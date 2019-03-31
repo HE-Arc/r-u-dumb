@@ -8,8 +8,8 @@
 {% block content %}
 <script src="{% static 'js/jquery.formset.js' %}"></script>
 <div>
-   
-    <form method="post" action="">
+   {{ quiz_form.errors }}
+    <form method="post" action="" enctype="multipart/form-data">
         {{ quiz_form|crispy }}
         {% csrf_token %}
           <fieldset>
