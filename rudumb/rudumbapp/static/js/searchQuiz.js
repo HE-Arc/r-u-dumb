@@ -20,7 +20,7 @@ function search_quiz(csrf_token) {
                 let html = '<div class="row">';
                 for(var key in json) {
                     var value = json[key];
-                    html += '<div class="col-md-4"><div class="card mb-4 shadow-sm">'
+                    html += '<div class="col-md-4"><a href="/quiz/'+key+'/"><div class="card mb-4 shadow-sm">'
                     html+= '<img class="card-img-top" src='+value[1]+ ' alt="Card image cap">'
                     html+= '<title>Quizz_image</title><rect width="100%" height="100%" fill="#55595c" /><div class="card-body">'   
                     html+= '<p class="card-text">'+ value[0]+'</p>'      
