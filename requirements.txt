@@ -1,4 +1,9 @@
 Django==2.1.7
+django-bootstrap4==0.0.7
 django-crispy-forms==1.7.2
-django-debug-toolbar==1.11
+django-next-prev==1.0.1
+django-registration-redux==2.5
+mysql-connector-python==8.0.15
+mysqlclient==1.4.2.post1
+numpy==1.16.1
 Pillow==5.4.1
