@@ -8,4 +8,5 @@ urlpatterns = [
     path('quiz/<int:id>/results', views.results_quiz, name='results'),
     path('quiz/<int:id>/', views.quiz, name='quiz'),
     path('quizCreationForm', views.quizCreationForm, name='quizCreationForm'),
+    path('category', views.category_form, name='category'),
 ]

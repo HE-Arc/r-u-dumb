@@ -1,5 +1,5 @@
 from django import forms
-from .models import Category, Question, Quiz
+from .models import Question, Quiz, Category
 
 
 class UserRegistrationForm(forms.Form):
@@ -22,28 +22,33 @@ class UserRegistrationForm(forms.Form):
     )
 
 
+class CategoryForm(forms.Form):
+    name = forms.CharField(
+        required=True,
+        label='Name',
+        max_length=32
+    )
+
+
 class QuizCreationForm(forms.ModelForm):
     class Meta:
         model = Quiz
-        fields=['name','category', 'image']
-
-        
+        fields = ['name', 'category', 'image']
 
 
-    
 class QuizQuestionForm(forms.ModelForm):
     class Meta:
-        model=Question
-        fields=['question','choice1','choice2','choice3','choice4', 'answer']
+        model = Question
+        fields = ['question', 'choice1', 'choice2', 'choice3', 'choice4', 'answer']
         exclude = ("quiz",)
 
         labels = {
-            'question' : 'Question',
-            'choice1' : 'First answer',
-            'choice2' : 'Second answer',
-            'choice3' : 'Third answer',
-            'choice4' : 'Fourth answer',
-            'answer' : 'Right answer number',
+            'question': 'Question',
+            'choice1': 'First answer',
+            'choice2': 'Second answer',
+            'choice3': 'Third answer',
+            'choice4': 'Fourth answer',
+            'answer': 'Right answer number',
         }
         widgets = {
             'question': forms.TextInput(attrs={'required': True}),
@@ -52,5 +57,5 @@ class QuizQuestionForm(forms.ModelForm):
             'choice3': forms.TextInput(attrs={'required': False}),
             'choice4': forms.TextInput(attrs={'required': False}),
             'answer': forms.NumberInput(attrs={'required': True}),
-
         }
+
