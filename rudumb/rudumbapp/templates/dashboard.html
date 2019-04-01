@@ -16,9 +16,9 @@
                             <div class="card">
                                 <h5 class="card-title">Statistics</h5>
                                 <p class="card-text">Number of quiz completed: {{ score.total_completed }}</p>
+                                <p class="card-text">Number of correct answers: {{ score.total_score }}</p>
                                 <p class="card-text">Percentage of quiz completed: {{ score.completed_ratio }}</p>
-                                <p class="card-text">Percentage of correct answers: {{ score.global_ratio }}</p>
-                                <p class="card-text">Ranking at: {{ score.global_leaderboard }}</p>
+                                <p class="card-text">Average number of quiz completed across all players: {{ score.other_players_avg }}</p>
                             </div>
                         </div>
                         <div class="col-sm-8">
@@ -36,22 +36,22 @@
 
             <br>
             <div class="card">
-                <h4 class="card-title">Quiz i recently completed</h4>
+                <h4 class="card-title">Quiz completed</h4>
                 </a>
                 <div class="card-body">
 
-                    {% for quiz in historic %}
+                    {% for quiz in passed_quiz %}
 
                     <div class="card">
                         <a href="...">
-                            <h5 class="card-title">{{ quiz.title }}</h5>
+                            <h5 class="card-title">{{ quiz.quiz.name }}</h5>
                         </a>
-                        <h6 class="card-subtitle mb-2 text-muted">Posted by {{ quiz.author }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Category {{ quiz.quiz.category }}</h6>
                         <div class="card-body">
                             <img class="card-img" src="..." height="12rm" alt="Card image cap">
                             <h7>Score</h7>
-                            <p class="card-text">Scored: {{ quiz.score }}</p>
-                            <p class="card-text">Ranking at: {{ quiz.leaderboard }}</p>
+                            <p class="card-text">Scored: {{ quiz.result_quiz }}</p>
+                            <p class="card-text">Done on {{ quiz.date_quiz_done }}</p>
                         </div>
                     </div>
                     <br>
