@@ -1,5 +1,5 @@
 Django==2.1.7
 django-crispy-forms==1.7.2
 django-debug-toolbar==1.11
-mysql==8.0.15
+mysql==5.7
 Pillow==5.4.1
