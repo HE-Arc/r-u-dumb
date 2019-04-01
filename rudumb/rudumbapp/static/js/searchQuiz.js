@@ -1,5 +1,3 @@
-
-
 function search_quiz(csrf_token) {
     console.log("bite");
 

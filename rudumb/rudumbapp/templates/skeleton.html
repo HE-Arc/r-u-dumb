@@ -1,4 +1,5 @@
 <html>
+
 <head>
     {% load static %}
     {% load bootstrap4 %}
@@ -6,17 +7,18 @@
     {% bootstrap_javascript jquery='full' %}
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
     <script src="static/js/searchQuiz.js"></script>
     <meta charset="UTF-8" />
 
-    <link rel="stylesheet" type ="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static '/media/logo.ico' %}"/>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
+
 <body>
-<!-- Fixed navbar -->
 <nav class="navbar navbar-expand-md navbar-dark  bg-dark">
     <a class="navbar-brand" href="/">
         <img src="{% static "/media/logo.png" %}" alt="My image">
@@ -29,19 +31,21 @@
         {% if user.is_authenticated %}
         <ul class="navbar-nav mr-auto">
             <li>
-                <a class="nav-link" href="/">Quizz Feed</a>
+                <a class="nav-link" href="/category">Category</a>
             </li>
-            <li>
-                <a class="nav-link" href="/">Category</a>
+            {% if user.is_superuser %}
+            <li class="nav-item">
+                <a class="nav-link" href="/quizCreationForm">Create a quiz</a>
             </li>
+            {% endif %}
         </ul>
         {% endif %}
         <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
-                {% if user.is_superuser %}
-                <li class="nav-item">
-                        <a class="nav-link" href="/quizCreationForm">Create a quiz</a>
-                {% endif %}
+            <li class="nav-item">
+                <a class="nav-link">You are logged as <b>{{request.user.username}}</b></a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">Dashboard</a>
             <li class="nav-item">
@@ -62,4 +66,5 @@
 {% block content %}
 {% endblock %}
 </body>
+
 </html>

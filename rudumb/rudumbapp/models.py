@@ -1,6 +1,6 @@
 from django.db import models
-from datetime import datetime    
-
+from django.core.validators import MinValueValidator, MaxValueValidator
+from datetime import datetime
 
 
 # Create your models here.
@@ -123,23 +123,21 @@ class Category(models.Model):
 
 
 class Question(models.Model):
-    question = models.CharField(max_length=45)
-    choice1 = models.CharField(max_length=45)
-    choice2 = models.CharField(max_length=45)
-    choice3 = models.CharField(max_length=45)
-    choice4 = models.CharField(max_length=45)
-    answer = models.IntegerField()
+    question = models.CharField(max_length=255)
+    choice1 = models.CharField(max_length=45, null=True)
+    choice2 = models.CharField(max_length=45, null=True)
+    choice3 = models.CharField(max_length=45, null=True)
+    choice4 = models.CharField(max_length=45, null=True)
+    answer = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
     quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
 
 
 class Quiz(models.Model):
     name = models.CharField(max_length=45)
     category = models.ManyToManyField(Category)
-    #category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    # category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
     image = models.ImageField(default='default.png', upload_to='quizzPictures')
-    date = models.DateTimeField(default = datetime.now, blank=True)
-
-
+    date = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
         return self.name
