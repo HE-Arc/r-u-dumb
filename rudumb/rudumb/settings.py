@@ -25,7 +25,10 @@ SECRET_KEY = '6c$$u^!kek4@=q0wh47%(zi%i97hu%f1($daiq*e&1pe_ge3z3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['rudumb.srvz-webapp.he-arc.ch',
+    '127.0.0.1',
+    'localhost',
+ ]
 
 LOGIN_REDIRECT_URL = '/'
 
