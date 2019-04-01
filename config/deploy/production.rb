@@ -3,22 +3,11 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-<<<<<<< HEAD
-# server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
-# server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
-# server "db.example.com", user: "deploy", roles: %w{db}
-
-
-server "rudumb.srvz-webapp.he-arc.ch", user: "poweruser", roles: %w{app db web}, port: 2274
-set :deploy_to, "/var/www/#{fetch(:application)}"
-
-=======
 server "rudumb.srvz-webapp.he-arc.ch", user: "poweruser", roles: %w{app db web}, port: 2274
 set :deploy_to, "/var/www/#{fetch(:application)}"
 
 
 
->>>>>>> 266c75d52e80467cddc009c5e5571dd71c364a3d
 # role-based syntax
 # ==================
 
