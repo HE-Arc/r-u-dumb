@@ -23,7 +23,7 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('', include('rudumbapp.urls')),
-    url(r'^favicon\.ico$', RedirectView.as_view(url=settings.MEDIA_URL + 'favicon.ico')),
+    url(r'^favicon\.ico$', RedirectView.as_view(url=settings.MEDIA_URL)),
     url(r'^admin/', admin.site.urls),
     url(r'^login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
     url(r'^logout/', LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
