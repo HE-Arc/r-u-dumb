@@ -8,45 +8,37 @@ from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.forms import formset_factory
-
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_protect
+from django.http import JsonResponse
+from django.forms import model_to_dict
 from .models import Quiz, Category
 
-
-dummy_data = [
-    {
-        'title': 'Would you be a good dolphin?',
-        'author': 'Leroy',
-        'score': '60%',
-        'leaderboard': '10/2190'
-    },
-    {
-        'title': 'Would you be a good doggo?',
-        'author': 'Goodboi56',
-        'score': '76%',
-        'leaderboard': '643/23445'
-    },
-    {
-        'title': 'States of the US',
-        'author': 'D. J. Trump',
-        'score': '100%',
-        'leaderboard': '110/48432'
-    }
-]
-
 # Create your views here.
+@csrf_protect
 def home(request):
-    try:
-        quiz_list = Quiz.objects.all().order_by("-date")
-        page = request.GET.get('page', 1)
+    
+    
+    quiz_list = Quiz.objects.all().order_by("-date")
+    page = request.GET.get('page', 1)
 
-        paginator = Paginator(quiz_list, 10)
-        quizz = paginator.page(page)
+    paginator = Paginator(quiz_list, 10)
+    quizz = paginator.page(page)
+    return render(request, 'index/home.html', {'quizz': quizz}, RequestContext(request))
 
+def search_quiz(request):
+    if request.method == 'POST':
+        search_text = request.POST.get('search_text')
+        json_datas = {}
+        quizz_search = Quiz.objects.filter(name__icontains=search_text)
 
-    except Quiz.DoesNotExist:
-        raise Http404("Quiz does not exist")
-    return render(request, 'index/home.html', {'quizz': quizz})
+        for quiz in quizz_search:
+            json_datas[quiz.id] = [quiz.name, quiz.image.url]
 
+        return JsonResponse(
+            json_datas
+        )
+    
 
 def register(request):
     if request.method == 'POST':
