@@ -6,14 +6,12 @@ from django import forms
 from django.http import HttpResponseRedirect
 from .forms import UserRegistrationForm, QuizCreationForm, QuizQuestionForm, CategoryForm
 from django.http import Http404
-<<<<<<< HEAD
 from .static.fusioncharts import FusionCharts
 
 from collections import OrderedDict
 
 from .models import Quiz, Category, Stat, AuthUser
 
-=======
 from datetime import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
@@ -45,7 +43,6 @@ dummy_data = [
         'leaderboard': '110/48432'
     }
 ]
->>>>>>> 266c75d52e80467cddc009c5e5571dd71c364a3d
 
 # Create your views here.
 @csrf_protect
@@ -95,8 +92,6 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
-<<<<<<< HEAD
-=======
 def category_form(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -115,7 +110,6 @@ def category_form(request):
     return render(request, 'category_form.html', {'form': form})
 
 
->>>>>>> 266c75d52e80467cddc009c5e5571dd71c364a3d
 def dashboard(request):
     # Chart data is passed to the `dataSource` parameter, as dictionary in the form of key-value pairs.
     dataSource = OrderedDict()
