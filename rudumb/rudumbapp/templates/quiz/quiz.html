@@ -1,0 +1,51 @@
+{% extends 'skeleton.html' %}
+{% block content %}
+<ul>
+    <div class="container">
+        <h1>{{ quiz.name }}</h1>
+        <div class="col-md-1 column">
+        </div>
+        <div class="col-md-10 column">
+            <form method="post" id="myform" action="/quiz/{{quiz.id}}/results">
+                {% csrf_token %}
+                {% for q in quiz.question_set.all %}
+                <div class="panel panel-primary">
+                    <hr>
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ forloop.counter }}. {{ q.question}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios{{forloop.counter}}" id="1" value="1" checked="">
+                                {{ q.choice1 }}
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios{{forloop.counter}}" id="2" value="2"> {{ q.choice2 }}
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios{{forloop.counter}}" id="3" value="3"> {{ q.choice3 }}
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios{{forloop.counter}}" id="4" value="4"> {{ q.choice4 }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </form>
+            <input class="btn btn-primary" type="submit" id="confirmQuestion" form="myform" value="Confirm">
+            <div class="col-md-1 column">
+            </div>
+        </div>
+    </div>
+</ul>
+
+
+{% endblock %}

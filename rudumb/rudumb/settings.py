@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rudumbapp.apps.RudumbappConfig',
     'bootstrap4',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -69,9 +70,16 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+            'arrayIndex': 'rudumbapp.templatetags.arrayElement',
+
+            }
         },
     },
 ]
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 WSGI_APPLICATION = 'rudumb.wsgi.application'
 
@@ -128,5 +136,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_ROOT = "rudumbapp/static/"
-STATIC_URL = 'rudumbapp/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'rudumbapp/static')
+
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
+MEDIA_URL = '/media/'
