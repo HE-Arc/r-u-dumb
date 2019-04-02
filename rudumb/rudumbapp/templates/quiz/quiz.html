@@ -6,7 +6,7 @@
         <div class="col-md-1 column">
         </div>
         <div class="col-md-10 column">
-            <form method="post" id="myform" action="/quiz/{{quiz.id}}/results">
+            <form method="post" id="myform" action="/quiz/{{quiz.id}}/results/">
                 {% csrf_token %}
                 {% for q in quiz.question_set.all %}
                 <div class="panel panel-primary">
