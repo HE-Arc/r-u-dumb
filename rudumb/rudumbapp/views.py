@@ -323,7 +323,7 @@ def quizCreationForm(request):
                 questionObject = question.save(commit=False)
                 questionObject.quiz = q
                 questionObject.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/quiz/'+str(q.id))
 
         else:
             context = {

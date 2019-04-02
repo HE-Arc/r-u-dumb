@@ -1,6 +1,12 @@
 {% extends "skeleton.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+{% if user.is_authenticated %}
+<div class="container">
+
+  <h3>You are aready authentified</h3>
+</div>
+{% else %}
 
 <div class="container">
 <h3>Register</h3>
@@ -10,6 +16,6 @@
     <button type="submit" class="btn btn-success">Register</button>
   </form>
 </div>
-
+{% endif %}
 
 {% endblock %}

@@ -19,13 +19,15 @@
 
 <div class="container">
     {% for q in quiz.question_set.all %}
-    <h3
+
+    <div 
     {% if result|arrayElement:forloop.counter0 == True %}
-            style="background-color: Green;"
+            class="alert alert-success"
          {% else %}
-            style="background-color: Red;"
+            class="alert alert-danger"
          {% endif %}>
-        {{forloop.counter}}. {{ q.question}}</h3>
+        <h6>{{forloop.counter}}. {{ q.question}}</h6></div>
+
     <div>
         <ul class="list-group">
           <li class="list-group-item">{{q.choice1}}</li>
