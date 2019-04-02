@@ -11,9 +11,10 @@
                         <div class="col-sm-4">
                             <div class="card">
                                 <h5 class="card-title">Statistics</h5>
-                                <p class="card-text">Number of quiz completed: {{ score.Quiz_completed }}</p>
-                                <p class="card-text">Number of quiz not completed: {{ score.Quiz_not_completed }}</p>
-                                <p class="card-text">Total number of quiz available: {{ score.Quiz_total }}</p>
+                                <p class="card-text">Number of quiz completed: {{ score.total_completed }}</p>
+                                <p class="card-text">Number of correct answers: {{ score.total_score }}</p>
+                                <p class="card-text">Percentage of quiz completed: {{ score.completed_ratio }}</p>
+                                <p class="card-text">Average number of quiz completed across all players: {{ score.other_players_avg }}</p>
                             </div>
                         </div>
                         <div class="col-sm-8">
@@ -28,6 +29,7 @@
                 </div>
             </div>
             <br>
+
             <br>
             <div class="card">
                 <h4 class="card-title">Quiz completed</h4>
@@ -37,10 +39,13 @@
                     {% for quiz in passed_quiz %}
 
                     <div class="card">
-                        <a class="card-title" href="/quiz/{{quiz.id}}/">
-                            <h5 >{{ quiz.quiz.name}}</h5>
+                        <a href="...">
+                            <h5 class="card-title">{{ quiz.quiz.name }}</h5>
                         </a>
+                        <h6 class="card-subtitle mb-2 text-muted">Category {{ quiz.quiz.category }}</h6>
                         <div class="card-body">
+                            <img class="card-img" src="..." height="12rm" alt="Card image cap">
+                            <h7>Score</h7>
                             <p class="card-text">Scored: {{ quiz.result_quiz }}</p>
                             <p class="card-text">Done on {{ quiz.date_quiz_done }}</p>
                         </div>
@@ -48,10 +53,8 @@
                     <br>
                     {% endfor %}
                 </div>
+
             </div>
         </div>
     </div>
-
-</div>
-
 {% endblock %}
