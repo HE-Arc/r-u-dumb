@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rudumbapp.apps.RudumbappConfig',
     'bootstrap4',
     'crispy_forms',
+    
 ]
 
 MIDDLEWARE = [

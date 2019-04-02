@@ -135,6 +135,11 @@ body {
     font-size: 80px;
 
   }
+  .select-category {
+    width: auto!important;
+    float: right;
+
+  }
 
   /* MARKETING CONTENT
   -------------------------------------------------- */

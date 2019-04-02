@@ -6,6 +6,7 @@ function search_quiz(csrf_token) {
         type : "POST", // http method
         data : { 
             search_text : $('#quizSearch').val(),
+            category : $('#quizCategory').val(),
             csrfmiddlewaretoken: csrf_token,
         }, // data sent with the post request
         dataType: 'json',

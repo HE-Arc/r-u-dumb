@@ -48,19 +48,27 @@ dummy_data = [
 @csrf_protect
 def home(request):
     
-    
+    categories = Category.objects.all()
     quiz_list = Quiz.objects.all().order_by("-date")
     page = request.GET.get('page', 1)
 
     paginator = Paginator(quiz_list, 10)
     quizz = paginator.page(page)
-    return render(request, 'index/home.html', {'quizz': quizz}, RequestContext(request))
+    return render(request, 'index/home.html', {'quizz': quizz, 'categories': categories}, RequestContext(request))
 
 def search_quiz(request):
     if request.method == 'POST':
         search_text = request.POST.get('search_text')
+        category = request.POST.get('category')
+        print(category)
+
         json_datas = {}
-        quizz_search = Quiz.objects.filter(name__icontains=search_text)
+        if category == '':
+            quizz_search = Quiz.objects.filter(name__icontains=search_text )
+
+        else:
+            quizz_search = Quiz.objects.filter(name__icontains=search_text, category = category )
+
 
         for quiz in quizz_search:
             json_datas[quiz.id] = [quiz.name, quiz.image.url]

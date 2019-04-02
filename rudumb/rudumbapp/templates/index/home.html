@@ -64,7 +64,16 @@
 </div>
 <div class="index-quizz">
   <h2 class="index-quizz-title">All quizz</h2>
+
   <form class="form-inline mt-2 mt-md-0 search-form" method="POST">
+      <select class="custom-select mr-sm-2 select-category" id="quizCategory" onchange="search_quiz('{{ csrf_token }}')">
+          
+          <option value = '' selected>Category</option>
+  
+          {% for category in categories %}
+            <option value={{ category.id }}>{{ category.name }}</option>
+          {% endfor %}
+      </select>
     {% csrf_token %}
     <input class="search-input-text form-control mr-sm-2 " type="text" placeholder="Search" aria-label="Search" id="quizSearch"
       oninput="search_quiz('{{ csrf_token }}')">
