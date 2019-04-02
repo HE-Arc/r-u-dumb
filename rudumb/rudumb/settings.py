@@ -166,7 +166,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'rudumbapp/static'),
 )
 
 MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
