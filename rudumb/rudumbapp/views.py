@@ -134,8 +134,8 @@ def dashboard(request):
 
     #données simples pour remplacer la jolie gaussienne qui aurait du etre là
     done = Stat.objects.filter(user = current_user).count()
-    undone = Stat.objects.exclude(user = current_user).count()
-    total = done + undone
+    total = Stat.objects.all().count()
+    undone = total - done
     gaussian["Done"] = done
     gaussian["Not done"] = undone
 
