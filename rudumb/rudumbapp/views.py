@@ -1,25 +1,22 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from django.contrib.sessions.models import Session
 from django import forms
 from django.http import HttpResponseRedirect
 from .forms import UserRegistrationForm, QuizCreationForm, QuizQuestionForm, CategoryForm
-from django.http import Http404
-from .static.fusioncharts import FusionCharts
+from .fusioncharts import FusionCharts
 
 from collections import OrderedDict
 
-from .models import Quiz, Category, Stat, AuthUser
+from .models import AuthUser
 
 from datetime import datetime
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.forms import formset_factory
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse
-from django.forms import model_to_dict
 
 from .models import Quiz, Category, Stat
 
