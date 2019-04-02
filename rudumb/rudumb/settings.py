@@ -30,11 +30,6 @@ ALLOWED_HOSTS = ['rudumb.srvz-webapp.he-arc.ch',
     'localhost',
  ]
 
-LOGIN_REDIRECT_URL = '/'
-
-
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -81,11 +76,7 @@ TEMPLATES = [
     },
 ]
 
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
 WSGI_APPLICATION = 'rudumb.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -96,33 +87,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-# DATABASES = {
-#   'default': {
-#     'ENGINE': 'django.db.backends.mysql',
-#     'NAME': os.environ.get('GROUPNAME'),
-#     'USER': os.environ.get('GROUPNAME', 'root'),
-#     'PASSWORD': os.environ.get('PASSWORD', ''),
-#     'HOST': os.environ.get('MYSQL_HOST', 'localhost'),
-#     'PORT': os.environ.get('MYSQL_PORT', '3306'),
-#     'OPTIONS': {
-#       'charset': 'utf8mb4'
-#     }
-#   }
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'rudumbdb',
-#         'USER': 'root',
-#         'PASSWORD': 'root',
-#         #'HOST': '127.0.0.1',
-#         #'PORT': '5432',
-#
-#     }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -156,14 +120,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
-#STATIC_ROOT = os.path.join(BASE_DIR, 'rudumbapp/static')
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/static/'
 
-MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
-MEDIA_URL = '/media/'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = '/'

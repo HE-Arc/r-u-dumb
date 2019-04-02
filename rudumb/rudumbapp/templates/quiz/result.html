@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load arrayElement %}
-
 {% if result == None %}
 <div class="container">
     <div class="row">
@@ -16,7 +15,6 @@
     </div>
 </div>
 <br>
-
 <div class="container">
     {% for q in quiz.question_set.all %}
     <h3
@@ -38,5 +36,4 @@
     {% endfor %}
 </div>
 {% endif %}
-
 {% endblock %}

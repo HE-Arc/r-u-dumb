@@ -2,7 +2,79 @@
 lock "~> 3.11.0"
 
 set :application, "rudumb"
-set :repo_url, "https://github.com/HE-Arc/r-u-dumb.git"
+set :repo_url, "https://github.com/HE-Arc/rudumb.git"
+
+
+after 'deploy:publishing', 'uwsgi:restart'
+after 'deploy:publishing', 'nginx:restart'
+
+namespace :uwsgi do
+  desc 'Restart application'
+  task :restart do
+    on roles(:web) do |h|
+      execute :sudo, 'sv reload uwsgi'
+    end
+  end
+end
+
+namespace :nginx do
+  desc 'Restart nginx'
+  task :restart do
+    on roles(:web) do |h|
+      execute :sudo, 'sv reload nginx'
+    end
+  end
+end
+
+after 'deploy:updating', 'python:create_venv'
+
+namespace :python do
+
+  def venv_path
+    File.join(shared_path, 'env')
+  end
+
+  desc 'Create venv'
+  task :create_venv do
+    on roles([:app, :web]) do |h|
+      execute "python3.6 -m venv #{venv_path}"
+      execute "source #{venv_path}/bin/activate"
+      execute "#{venv_path}/bin/pip install -r #{release_path}/requirements.txt"
+    end
+  end
+end
+
+after 'deploy:updated', 'django:setProd'
+after 'deploy:updated', 'django:migrate'
+after 'deploy:updated', 'django:collect_static'
+
+namespace :django do
+
+  def venv_path
+    File.join(shared_path, 'env')
+  end
+
+  desc 'Migrate database'
+  task :migrate do
+    on roles([:app, :web]) do |h|
+      execute "#{venv_path}/bin/python #{release_path}/rudumb/manage.py migrate"
+    end
+  end
+
+  desc 'Collect static files'
+  task :collect_static do
+    on roles([:app, :web]) do |h|
+      execute "#{venv_path}/bin/python #{release_path}/rudumb/manage.py collectstatic --noinput"
+    end
+  end
+
+  desc 'set debug to False'
+  task :setProd do
+    on roles([:app, :web]) do |h|
+      execute "sed -i 's/DEBUG = True/DEBUG = False/g' #{release_path}/rudumb/rudumb/settings.py"
+    end
+  end
+end
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp

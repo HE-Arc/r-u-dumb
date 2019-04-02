@@ -1,6 +1,4 @@
 function search_quiz(csrf_token) {
-    console.log("bite");
-
     $.ajax({
         url : "search_quiz", // the endpoint
         type : "POST", // http method
@@ -12,7 +10,6 @@ function search_quiz(csrf_token) {
 
         // handle a successful response
         success : function(json) {
-            
             console.log(json); // log the returned json to the console
             console.log("success"); // another sanity check
             try {
@@ -25,7 +22,6 @@ function search_quiz(csrf_token) {
                     html+= '<title>Quizz_image</title><rect width="100%" height="100%" fill="#55595c" /><div class="card-body">'   
                     html+= '<p class="card-text">'+ value[0]+'</p>'      
                     html+= '</div></div></div>'           
-                        
                 }
                 html+='</div>'
                 elem.innerHTML = html;

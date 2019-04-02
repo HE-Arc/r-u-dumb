@@ -131,6 +131,9 @@ class Question(models.Model):
     answer = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
     quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Quiz(models.Model):
     name = models.CharField(max_length=45)
