@@ -218,6 +218,11 @@ body {
       width: 100%;
     }
 
+    .select-category {
+      width: 100%!important;
+      margin-bottom: 5px;
+    }
+
     .search-input-text {
       width: 100%!important;
     }
