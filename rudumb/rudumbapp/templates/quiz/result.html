@@ -1,7 +1,6 @@
-{% extends 'skeleton.html' %}
+{% extends 'base.html' %}
 {% block content %}
 {% load arrayElement %}
-
 {% if result == None %}
 <div class="container">
     <div class="row">
@@ -11,32 +10,39 @@
 {% else %}
 <div class="container">
     <div class="row">
-        <div class="col-lg-12" style=" text-align: center;"><h1>Well Play !</h1></div>
+        {% if trueAnswer == 0 %}
+            <div class="col-lg-12" style=" text-align: center;"><h1>Too bad ...</h1></div>
+        {% elif trueAnswer == lenght_divide %}
+            <div class="col-lg-12" style=" text-align: center;"><h1>Not bad, but can be better !</h1></div>
+        {% elif trueAnswer == lenght %}
+            <div class="col-lg-12" style=" text-align: center;"><h1>You are a boss, GG !</h1></div>
+        {% else %}
+            <div class="col-lg-12" style=" text-align: center;"><h1>Well Play !</h1></div>
+        {% endif %}
         <div class="col-lg-12" style=" text-align: center;"><h1>Your score : {{trueAnswer}}/{{lenght}}</h1></div>
     </div>
 </div>
 <br>
-
 <div class="container">
     {% for q in quiz.question_set.all %}
-    <h3
-    {% if result|arrayElement:forloop.counter0 == True %}
-            style="background-color: Green;"
-         {% else %}
-            style="background-color: Red;"
-         {% endif %}>
-        {{forloop.counter}}. {{ q.question}}</h3>
+    <div
+        {% if result|arrayElement:forloop.counter0 == True %}
+        class="alert alert-success"
+        {% else %}
+        class="alert alert-danger"
+        {% endif %}
+    >
+        <h6>{{forloop.counter}}. {{ q.question}}</h6></div>
     <div>
         <ul class="list-group">
-          <li class="list-group-item">{{q.choice1}}</li>
-          <li class="list-group-item">{{q.choice2}}</li>
-          <li class="list-group-item">{{q.choice3}}</li>
-          <li class="list-group-item">{{q.choice4}}</li>
+            <li class="list-group-item">{{q.choice1}}</li>
+            <li class="list-group-item">{{q.choice2}}</li>
+            <li class="list-group-item">{{q.choice3}}</li>
+            <li class="list-group-item">{{q.choice4}}</li>
         </ul>
     </div>
     <br>
     {% endfor %}
 </div>
 {% endif %}
-
 {% endblock %}

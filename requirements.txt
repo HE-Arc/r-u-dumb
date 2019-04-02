@@ -1,0 +1,5 @@
+Django==2.1.7
+django-bootstrap4
+django-crispy-forms==1.7.2
+django-next-prev==1.0.1
+Pillow==5.4.1

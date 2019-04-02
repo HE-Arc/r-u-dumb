@@ -1,19 +1,13 @@
-{% extends 'skeleton.html' %}
+{% extends 'base.html' %}
 {% block title %}Login{% endblock %}
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="container">
     <h3>Login</h3>
-    <form method="post">
+<form method="post" novalidate>
         {% csrf_token %}
-        <div class="form-group">
-            <label for="username">Username*</label>
-            <input type="text" class="form-control" id="username" name="username">
-        </div>
-        <div class="form-group">
-            <label for="password">Password*</label>
-            <input type="password" class="form-control" id="password" name="password">
-        </div>
-        <button type="submit" class="btn btn-success">Submit</button>
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Login</button>
     </form>
 </div>
 {% endblock %}

@@ -19,13 +19,12 @@ from django.urls import path, include
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.conf import settings
-from django.views.generic.base import RedirectView
 
 urlpatterns = [
+    url('admin/', admin.site.urls),
+    url('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    url('logout/', LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
     path('', include('rudumbapp.urls')),
-    url(r'^favicon\.ico$', RedirectView.as_view(url=settings.MEDIA_URL + 'favicon.ico')),
-    url(r'^admin/', admin.site.urls),
-    url(r'^login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
-    url(r'^logout/', LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+              + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

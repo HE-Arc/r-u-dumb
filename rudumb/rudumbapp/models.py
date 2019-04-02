@@ -3,8 +3,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import datetime
 
 
-# Create your models here.
-
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=80)
 
@@ -131,11 +129,13 @@ class Question(models.Model):
     answer = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(4)])
     quiz = models.ForeignKey('Quiz', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Quiz(models.Model):
     name = models.CharField(max_length=45)
     category = models.ManyToManyField(Category)
-    # category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
     image = models.ImageField(default='default.png', upload_to='quizzPictures')
     date = models.DateTimeField(default=datetime.now, blank=True)
 
