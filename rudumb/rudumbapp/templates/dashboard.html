@@ -37,12 +37,10 @@
                     {% for quiz in passed_quiz %}
 
                     <div class="card">
-                        <a href="...">
-                            <h5 class="card-title">{{ quiz.title}}</h5>
+                        <a class="card-title" href="/quiz/{{quiz.id}}/">
+                            <h5 >{{ quiz.quiz.name}}</h5>
                         </a>
                         <div class="card-body">
-                            <img class="card-img" src="..." height="12rm" alt="Card image cap">
-                            <h7>Score</h7>
                             <p class="card-text">Scored: {{ quiz.result_quiz }}</p>
                             <p class="card-text">Done on {{ quiz.date_quiz_done }}</p>
                         </div>
