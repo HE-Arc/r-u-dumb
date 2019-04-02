@@ -1,8 +1,14 @@
 {% extends 'skeleton.html' %}
 {% block content %}
-<ul>
-    <div class="container">
-        <h1>{{ quiz.name }}</h1>
+    <div class="carousel-inner">
+        <img class="quiz-img" src={{ quiz.image.url }} alt="Second slide">
+        <div class ="mask mask-quiz"></div>
+        <div class="carousel-caption">
+                <h1 class="quiz-title">{{ quiz.name }}</h1>
+        </div>
+    </div>
+    <div class="container quiz-container">
+
         <div class="col-md-1 column">
         </div>
         <div class="col-md-10 column">
@@ -45,7 +51,6 @@
             </div>
         </div>
     </div>
-</ul>
 
 
 {% endblock %}
