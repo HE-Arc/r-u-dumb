@@ -44,8 +44,6 @@ dummy_data = [
 # Create your views here.
 @csrf_protect
 def home(request):
-    
-    
     quiz_list = Quiz.objects.all().order_by("-date")
     page = request.GET.get('page', 1)
 
