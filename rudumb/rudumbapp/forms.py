@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question, Quiz, Category
+from .models import Question, Quiz
 
 
 class UserRegistrationForm(forms.Form):
@@ -54,8 +54,7 @@ class QuizQuestionForm(forms.ModelForm):
             'question': forms.TextInput(attrs={'required': True}),
             'choice1': forms.TextInput(attrs={'required': True}),
             'choice2': forms.TextInput(attrs={'required': True}),
-            'choice3': forms.TextInput(attrs={'required': False}),
-            'choice4': forms.TextInput(attrs={'required': False}),
+            'choice3': forms.TextInput(attrs={'required': True}),
+            'choice4': forms.TextInput(attrs={'required': True}),
             'answer': forms.NumberInput(attrs={'required': True}),
         }
-

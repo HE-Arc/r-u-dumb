@@ -1,9 +1,10 @@
 function search_quiz(csrf_token) {
     $.ajax({
-        url : "search_quiz", // the endpoint
+        url : "search_quiz/", // the endpoint
         type : "POST", // http method
         data : { 
             search_text : $('#quizSearch').val(),
+            category : $('#quizCategory').val(),
             csrfmiddlewaretoken: csrf_token,
         }, // data sent with the post request
         dataType: 'json',
@@ -36,5 +37,4 @@ function search_quiz(csrf_token) {
             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
         }
     });
-    
 };

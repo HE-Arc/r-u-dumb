@@ -11,11 +11,12 @@
         {{ quiz_form|crispy }}
         {% csrf_token %}
         <fieldset>
-            <legend>Add a question</legend>
+            <h2>Add questions</h2>
             <div>
                 {{ question_form.management_form|crispy }}
                 {% for question in question_form %}
                 <div class="link-formset">
+                    <h3 class="question-title">Write your question</h3>
                     {{ question|crispy }}
                 </div>
                 {% endfor %}

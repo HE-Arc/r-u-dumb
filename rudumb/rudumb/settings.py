@@ -26,9 +26,9 @@ SECRET_KEY = '6c$$u^!kek4@=q0wh47%(zi%i97hu%f1($daiq*e&1pe_ge3z3'
 DEBUG = True
 
 ALLOWED_HOSTS = ['rudumb.srvz-webapp.he-arc.ch',
-    '127.0.0.1',
-    'localhost',
- ]
+                 '127.0.0.1',
+                 'localhost',
+                 ]
 
 # Application definition
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rudumbapp.apps.RudumbappConfig',
     'bootstrap4',
     'crispy_forms',
+    
 ]
 
 MIDDLEWARE = [
@@ -126,6 +127,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/static/'
 
+MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
+MEDIA_URL = '/media/'
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = 'rudumpapp-home'
+LOGIN_REDIRECT_URL = 'home'

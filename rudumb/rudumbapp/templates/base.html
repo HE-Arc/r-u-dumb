@@ -4,8 +4,11 @@
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
 <head>
-    <meta charset="UTF-8" />
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="{% static '/js/searchQuiz.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'fusioncharts/fusioncharts.js' %}"></script>
@@ -17,50 +20,71 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark  bg-dark">
-    <a class="navbar-brand" href="{% url 'home' %}">
-        <img src="{% static 'media/logo.png' %}" alt="My image">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        {% if user.is_authenticated %}
-        <ul class="navbar-nav mr-auto">
-            <li>
-                <a class="nav-link" href="{% url 'category' %}">Category</a>
-            </li>
-            {% if user.is_superuser %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'quizCreationForm' %}">Create a quiz</a>
-            </li>
-            {% endif %}
-        </ul>
-        {% endif %}
-        <ul class="navbar-nav ml-auto">
+<div class="flex-wrapper">
+    <nav class="navbar navbar-expand-md navbar-dark  bg-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'media/logo.png' %}" alt="My image">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
             {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link">You are logged as <b>{{request.user.username}}</b></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
-            <li class="nav-item">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'login' %}">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'register' %}">Register</a>
-            </li>
+            <ul class="navbar-nav mr-auto">
+                {% if user.is_superuser %}
+                <li>
+                    <a class="nav-link" href="{% url 'category' %}">Category</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'quizCreationForm' %}">Create a quiz</a>
+                </li>
+                {% endif %}
+            </ul>
             {% endif %}
-        </ul>
-    </div>
-</nav>
-{% block content %}
-{% endblock %}
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link">You are logged as <b>{{request.user.username}}</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                <li class="nav-item">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    {% if user.is_authenticated %}
+    <footer class="page-footer">
+        <div class="footer-copyright text-center py-3">© 2019 Not copyrighted by three autistics people</div>
+    </footer>
+    {% else %}
+        <footer class="page-footer font-small unique-color-dark pt-4">
+        <div class="container">
+            <ul class="list-unstyled list-inline text-center py-2">
+                <li class="list-inline-item">
+                    <h5 class="mb-1">Register for free</h5>
+                </li>
+                <li class="list-inline-item">
+                    <a href="/register" class="btn btn-outline-white btn-rounded">Sign up!</a>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-copyright text-center py-3">© 2019 Not copyrighted by three autistics people</div>
+    </footer>
+    {% endif %}
+</div>
 </body>
 </html>
