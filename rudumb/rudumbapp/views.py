@@ -94,38 +94,44 @@ def dashboard(request):
 
     # The `chartConfig` dict contains key-value pairs data for chart attribute
     chartConfig = OrderedDict()
-    chartConfig["caption"] = "How complete is your progression?"
-    chartConfig["yAxisName"] = "Number of quiz"
+    chartConfig["caption"] = "How do you stack up against other users?"
+    chartConfig["xAxisName"] = "Score"
+    chartConfig["yAxisName"] = "Number of user"
     chartConfig["theme"] = "carbon"
     dataSource["chart"] = chartConfig
     dataSource["data"] = []
 
     # Creer dict
     gaussian = dict()
+    doneundone = dict()
 
-    # Après maints essais, ne fonctionne pas comme prévu donc passé à une version plus simple (autres données) affichées sur le graphe
+    users = User.objects.all()
+    total_score = 0
+    overhall_score = 0
 
-    # # Pour chaque utilisateur
-    # for user in users.iterator():
-    #     user_points = 0
-    #     points = Quiz.objects.filter(stat_user_username = user)
-    #     user_points += quiz.result_quiz
-    #     # Enter data in gaussian dict
-    #     if user_points in gaussian:
-    #         gaussian[user_points] += 1
-    #     else:
-    #         gaussian[user_points] = 1
+    # Pour chaque utilisateur
+    for user in users.iterator():
+        user_points = 0
+        user_done = Stat.objects.filter(user = current_user)
+        for done in user_done.iterator():
+            user_points += done.result_quiz
+        # Enter data in gaussian dict
+        if user_points in gaussian:
+            gaussian[user_points] += 1
+        else:
+            gaussian[user_points] = 1
         
-    #     # Remember the user score
-    #     if user == current_user:
-    #         total_score = user_points
+        # Remember the user score
+        if user == current_user:
+            total_score = user_points
+        overhall_score += user_points
 
-    # #Sort the gaussian and fill it with the zeros
-    # right_limit = max(gaussian.keys())
-    # for i in range(0, right_limit):
-    #     # Fill in the blanks
-    #     if i not in gaussian:
-    #         gaussian[i] = 0
+    #Sort the gaussian and fill it with the zeros
+    right_limit = max(gaussian.keys())
+    for i in range(0, right_limit):
+        # Fill in the blanks
+        if i not in gaussian:
+            gaussian[i] = 0
     
     # Convert the data in the `chartData` array into a format that can be consumed by FusionCharts. 
     # The data for the chart should be in an array wherein each element of the array is a JSON object
@@ -136,15 +142,19 @@ def dashboard(request):
     done = Stat.objects.filter(user = current_user).count()
     total = Stat.objects.all().count()
     undone = total - done
-    gaussian["Done"] = done
-    gaussian["Not done"] = undone
+    doneundone["Done"] = done
+    doneundone["Not done"] = undone
+    if overhall_score != 0:
+        contrib = total_score/overhall_score*100
+    else:
+        contrib = "No one scored yet"
 
     for key, value in gaussian.items():
         data = {}
         data["label"] = key
         data["value"] = value
-        # if key == total_score:
-        #     data["color"] = "#FF4500" #Custom Color
+        if key == total_score:
+            data["color"] = "#FF4500" #Custom Color
         dataSource["data"].append(data)
 
     # Create an object for the column 2D chart using the FusionCharts class constructor
@@ -154,7 +164,9 @@ def dashboard(request):
     scores = {
         'Quiz_completed': done,
         'Quiz_not_completed': undone,
-        'Quiz_total': total
+        'Quiz_total': total,
+        'Score': total_score,
+        'Contribution' : contrib
     }
 
     quiz_stat = Stat.objects.filter(user = current_user).select_related('quiz')

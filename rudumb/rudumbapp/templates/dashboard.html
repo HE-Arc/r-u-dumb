@@ -14,6 +14,8 @@
                                 <p class="card-text">Number of quiz completed: {{ score.Quiz_completed }}</p>
                                 <p class="card-text">Number of quiz not completed: {{ score.Quiz_not_completed }}</p>
                                 <p class="card-text">Total number of quiz available: {{ score.Quiz_total }}</p>
+                                <p class="card-text">Total score: {{ score.Score }}</p>
+                                <p class="card-text">Your score contribution: {{ score.Contribution }}</p>
                             </div>
                         </div>
                         <div class="col-sm-8">
@@ -40,6 +42,7 @@
                         <a class="card-title" href="/quiz/{{quiz.id}}/">
                             <h5 >{{ quiz.quiz.name}}</h5>
                         </a>
+                        <img class="card-img-top" src="{{ quiz.image.url }}" alt="Card image cap">
                         <div class="card-body">
                             <p class="card-text">Scored: {{ quiz.result_quiz }}</p>
                             <p class="card-text">Done on {{ quiz.date_quiz_done }}</p>
