@@ -25,6 +25,6 @@ urlpatterns = [
     url('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
     url('logout/', LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
     path('', include('rudumbapp.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
-              + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
+              static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
