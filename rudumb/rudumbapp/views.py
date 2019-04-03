@@ -218,6 +218,15 @@ def dashboard(request):
     # The chart data is passed to the `dataSource` parameter.
     column2D = FusionCharts("column2d", "ex1", "100%", "30%", "distribution_chart", "json", dataSource)
 
+    quiz_stat = Stat.objects.filter(user=current_user).select_related('quiz')
+    lenghtQuiz = []
+    for q in quiz_stat:
+        quiz = get_object_or_404(Quiz, pk=q.quiz.id)
+        i = 0
+        for q in quiz.question_set.all():
+            i = i+1
+        lenghtQuiz.append(i)
+
     scores = {
         'Quiz_completed': done,
         'Quiz_not_completed': undone,
@@ -227,6 +236,8 @@ def dashboard(request):
     }
 
     context = {
+        'lenghtQuiz' : lenghtQuiz,
+        'passed_quiz': quiz_stat,
         'historic': passed_quiz,
         'score': scores,
         'distribution': column2D.render()
