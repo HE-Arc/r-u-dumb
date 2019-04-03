@@ -30,6 +30,7 @@
                 </div>
             </div>
             <br>
+
             <br>
             <div class="card">
                 <h4 class="card-title">Quiz completed</h4>
@@ -39,11 +40,13 @@
                     {% for quiz in passed_quiz %}
 
                     <div class="card">
-                        <a class="card-title" href="/quiz/{{quiz.id}}/">
-                            <h5 >{{ quiz.quiz.name}}</h5>
+                        <a href="...">
+                            <h5 class="card-title">{{ quiz.quiz.name }}</h5>
                         </a>
                         <img class="card-img-top" src="{{ quiz.image.url }}" alt="Card image cap">
                         <div class="card-body">
+                            <img class="card-img" src="..." height="12rm" alt="Card image cap">
+                            <h7>Score</h7>
                             <p class="card-text">Scored: {{ quiz.result_quiz }}</p>
                             <p class="card-text">Done on {{ quiz.date_quiz_done }}</p>
                         </div>
@@ -51,10 +54,8 @@
                     <br>
                     {% endfor %}
                 </div>
+
             </div>
         </div>
     </div>
-
-</div>
-
 {% endblock %}

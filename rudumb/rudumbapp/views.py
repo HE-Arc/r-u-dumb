@@ -1,51 +1,52 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from django.contrib.sessions.models import Session
 from django import forms
 from django.http import HttpResponseRedirect
 from .forms import UserRegistrationForm, QuizCreationForm, QuizQuestionForm, CategoryForm
-from django.http import Http404
-from rudumbapp.fusioncharts import FusionCharts
-
+from .fusioncharts import FusionCharts
 from collections import OrderedDict
-
-from .models import Quiz, Category, Stat, AuthUser, Category
-
+from .models import AuthUser
 from datetime import datetime
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.forms import formset_factory
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse
-from django.forms import model_to_dict
+from .models import Quiz, Category, Stat
 
 
+"""Function for the index page"""
 @csrf_protect
 def home(request):
+    categories = Category.objects.all()
     quiz_list = Quiz.objects.all().order_by("-date")
     page = request.GET.get('page', 1)
-
-    paginator = Paginator(quiz_list, 10)
+    paginator = Paginator(quiz_list, 9)
     quizz = paginator.page(page)
-    return render(request, 'index/home.html', {'quizz': quizz}, RequestContext(request))
+    return render(request, 'index/home.html', {'quizz': quizz, 'categories': categories}, RequestContext(request))
 
 
+"""Function for the search bar, search by quizz and category"""
 def search_quiz(request):
     if request.method == 'POST':
         search_text = request.POST.get('search_text')
+        category = request.POST.get('category')
         json_datas = {}
-        quizz_search = Quiz.objects.filter(name__icontains=search_text)
+        if category == '':
+            quizz_search = Quiz.objects.filter(name__icontains=search_text)
+        else:
+            quizz_search = Quiz.objects.filter(name__icontains=search_text, category=category)
 
         for quiz in quizz_search:
             json_datas[quiz.id] = [quiz.name, quiz.image.url]
-
         return JsonResponse(
             json_datas
         )
 
-
+    
+"""Function for register a user"""
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -61,13 +62,12 @@ def register(request):
                 return HttpResponseRedirect('/')
             else:
                 raise forms.ValidationError('Looks like a username with that email or password already exists')
-
     else:
         form = UserRegistrationForm()
-
     return render(request, 'registration/register.html', {'form': form})
 
 
+"""Function for the category form"""
 def category_form(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -79,16 +79,13 @@ def category_form(request):
                 return HttpResponseRedirect('/category')
             else:
                 raise forms.ValidationError('Looks like a category with the same name exists')
-
     else:
         form = CategoryForm()
-
     return render(request, 'category_form.html', {'form': form})
 
 
+"""Function for the dashboard of a user, show his stats"""
 def dashboard(request):
-    current_user = request.user.id
-
     # Chart data is passed to the `dataSource` parameter, as dictionary in the form of key-value pairs.
     dataSource = OrderedDict()
 
@@ -100,6 +97,66 @@ def dashboard(request):
     chartConfig["theme"] = "carbon"
     dataSource["chart"] = chartConfig
     dataSource["data"] = []
+
+    dummy_data = [
+        {
+            'title': 'Would you be a good dolphin?',
+            'author': 'Leroy',
+            'score': '60%',
+            'leaderboard': '10/2190'
+        },
+        {
+            'title': 'Would you be a good doggo?',
+            'author': 'Goodboi56',
+            'score': '76%',
+            'leaderboard': '643/23445'
+        },
+        {
+            'title': 'States of the US',
+            'author': 'D. J. Trump',
+            'score': '100%',
+            'leaderboard': '110/48432'
+        }
+    ]
+
+
+    current_user = request.user.id
+    n_quiz = Stat.objects.all().count()
+    n_done = passed_quiz = Stat.objects.filter(user=current_user).count()
+
+    #Calcul de la moyenne de l'utilisateur courant
+    passed_quiz = Stat.objects.filter(user=current_user)
+
+    #Compteur
+    player_total_score = 0
+    for quiz in passed_quiz.iterator():
+        player_total_score += quiz.result_quiz
+
+    #Division par zéro
+    if n_quiz == 0:
+        ratio = "x/0"
+    else:
+        ratio = n_done/n_quiz*100
+
+
+    #Calcul de la moyenne globale des autres utilisateurs
+    passed_quiz_by_others = Stat.objects.exclude(user=current_user)
+
+    #Compteurs
+    others_total_score = 0
+    others_n = 0
+    for quiz in passed_quiz_by_others.iterator():
+        others_total_score += quiz.result_quiz
+        others_n += 1
+
+    #Division par zéro
+    if others_n == 0:
+        others_average = "x/0"
+    else:
+        others_average = others_total_score/others_n
+
+    # Populate the gaussian
+    users = AuthUser.objects.all()
 
     # Creer dict
     gaussian = dict()
@@ -169,26 +226,25 @@ def dashboard(request):
         'Contribution' : contrib
     }
 
-    quiz_stat = Stat.objects.filter(user = current_user).select_related('quiz')
-
     context = {
-        'passed_quiz': quiz_stat,
+        'historic': passed_quiz,
         'score': scores,
         'distribution': column2D.render()
     }
     return render(request, 'dashboard.html', context)
 
 
+"""Function to show the quiz"""
 def quiz(request, id):
     template_name = 'quiz/quiz.html'
 
     quiz = get_object_or_404(Quiz, pk=id)
-
     return render(request, template_name, {
         'quiz': quiz,
     })
 
 
+"""Function for the result of the quiz"""
 def results_quiz(request, id):
     template_name = 'quiz/result.html'
 
@@ -207,66 +263,50 @@ def results_quiz(request, id):
             else:
                 result.append(False)
             i = i + 1
-
-        lenght = len(result)
-
+        lenght_result = len(result)
+        lenght_result_divide = int(len(result)/2)
         if request.session.get('_auth_user_id') is not None:
             user = request.session.get('_auth_user_id')
-
             if not Stat.objects.filter(quiz_id=id, user_id=user).exists():
                 Stat.objects.create(result_quiz=trueAnswer, date_quiz_done=datetime.now(), quiz_id=id, user_id=user)
             else:
                 Stat.objects.update(result_quiz=trueAnswer, date_quiz_done=datetime.now())
-
         return render(request, template_name, {
             'result': result,
             'trueAnswer': trueAnswer,
-            'lenght': lenght,
+            'lenght': lenght_result,
+            'lenght_divide': lenght_result_divide,
             'quiz': quiz
         })
     else:
         return render(request, template_name)
 
 
+"""Function for the quiz form"""
 def quizCreationForm(request):
-    # We are creating a formset out of the ContactForm
-    Question_FormSet = formset_factory(QuizQuestionForm)
-    # The Template name where we are going to display it
+    question_formset = formset_factory(QuizQuestionForm)
     template_name = "quizCreationForm.html"
 
-    # Overiding the get method
     if request.method == 'GET':
-        # Creating an Instance of formset and putting it in context dict
         context = {
-            'question_form': Question_FormSet(),
+            'question_form': question_formset(),
             'quiz_form': QuizCreationForm()
         }
-
         return render(request, template_name, context)
 
     if request.method == 'POST':
-        question_formset = Question_FormSet(request.POST, request.FILES)
+        question_formset = question_formset(request.POST, request.FILES)
         quiz_form = QuizCreationForm(request.POST, request.FILES)
-        print(quiz_form.errors)
-        # Checking the if the form is valid
         if question_formset.is_valid() and quiz_form.is_valid():
-
-            # To save we have loop through the formset
-            # quiz_form.save(commit = False)
-            # quiz_form.image = request.FILES['image']
             q = quiz_form.save()
             for question in question_formset:
-                # Saving in the contacts models
-                questionObject = question.save(commit=False)
-                questionObject.quiz = q
-                questionObject.save()
-            return HttpResponseRedirect('/')
-
+                question_object = question.save(commit=False)
+                question_object.quiz = q
+                question_object.save()
+            return HttpResponseRedirect('/quiz/'+str(q.id))
         else:
             context = {
-                'question_form': Question_FormSet(),
+                'question_form': question_formset(),
                 'quiz_form': QuizCreationForm()
             }
             return render(request, template_name, context)
-
-
